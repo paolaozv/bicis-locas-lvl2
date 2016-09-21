@@ -1,17 +1,108 @@
-## Loc@s por las bicis - Level 2
+# Loc@s por las bicis - Level 2
 
-Partiendo del ejercicio Loc@s por las bicis cambiaremos la forma de mostrar los errores al usuario, en vez de mostrar los errores con un alert, Si algún campo presenta error debe informarse al usuario por medio de mensaje, (idealmente un span) que se posicione en del lado derecho del input como se muestra en la imagen.
+### Validaciones de los campos son las siguientes:
 
-1. Descarga los archivos en la sección de Descarga, descomprime y colócalos en tu carpeta llamada **bicis-locas-lvl2**   
-2. En la consola posiciónate en la carpeta **bicis-locas-lvl2** e inicializa un repositorio en dicha carpeta
-3. Crea un repositorio que se llame **bicis-locas-lvl2** en GITHUB, haz tu primer commit y sube los archivos al repositorio. 
-4. Abre el archivo **js/main.js** y completa la función **validateForm**, (puedes usar las validaciones anteriores) recuerda que las validaciones de los campos son las siguientes:
-- Todos los campos son obligatorios, excepto los dos últimos. 
+- Declaramos variables globales
+
+ ``` javascript
+ 
+  var nombre = document.getElementById("name").value;
+	var apellido = document.getElementById("lastname").value;
+	var email = document.getElementById("input-email").value;
+	var contrasena = document.getElementById("input-password").value;
+  var lista = document.querySelector("select").value;
+  
+```
+
+- Todos los campos son obligatorios, excepto los dos últimos.
+
+  ``` javascript
+  
+    if(nombre == null || nombre.length == 0 || /^\s+$/.test(nombre)){
+        var span = document.createElement("span");
+        var referencia= document.getElementById("name");
+        var padre=referencia.parentNode;
+        padre.insertBefore(span,referencia);
+        var texto = document.createTextNode("Debe ingresar su nombre");
+        span.appendChild(texto);
+        return span;
+    }
+    
+  ```
+  
 - Los campos nombre y apellido sólo deben permitir caracteres de la A-Z
+
+  ``` javascript
+  
+    else {
+           var m = /^[a-zA-Z]*$/;
+           if(!nombre.search(m)) {
+                console.log("letra")
+                m = /[a-z]/g;
+            }
+            
+  ```          
+            
 - Para los campos nombre y apellido la primera letra debe ser mayúscula
+
+``` javascript
+
+  if(!nombre.search(m)){
+              var span = document.createElement("span");
+              var referencia= document.getElementById("name");
+              var padre=referencia.parentNode;
+              padre.insertBefore(span,referencia);
+              var texto = document.createTextNode("La primera letra debe empezar con maýuscula");
+              span.appendChild(texto);
+              return span;
+          }
+          
+  ```
+  
 - Validar que el campo email tenga un formato válido. Ej: name@domain.com
-- El campo password debe tener al menos 6 caracteres
-- El campo password no puede ser igual a "password" ó "123456" ó "098754"
+
+``` javascript
+
+  if(!(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email))) {
+        var span = document.createElement("span");
+        var referencia= document.getElementById("input-email");
+        var padre=referencia.parentNode;
+        padre.insertBefore(span,referencia);
+        var texto = document.createTextNode("Verifique su email");
+        span.appendChild(texto);
+        return span;
+    }
+
+```
+
+- El campo password debe tener al menos 6 caracteres. El campo password no puede ser igual a "password" ó "123456" ó "098754"
+
+``` javascript
+
+  if( contrasena == null || contrasena.length <= 6 || contrasena == "password" || contrasena == 123456 || contrasena == 098754 || /^\s+$/.test(contrasena) ) {
+        var span = document.createElement("span");
+        var referencia= document.getElementById("input-password");
+        var padre=referencia.parentNode;
+        padre.insertBefore(span,referencia);
+        var texto = document.createTextNode("Ingresa una contraseña válida");
+        span.appendChild(texto);
+        return span;
+    } 
+
+```
+  
 - El valor seleccionado de bicis, debe ser una de las opciones presentadas
 
-**NOTA: ** Recomendamos que el mensaje se añada con un span ya que los estilos ya están definidos.
+``` javascript
+
+if (lista == 0) {
+        var span = document.createElement("span");
+        var referencia= document.querySelector("select");
+        var padre=referencia.parentNode;
+        padre.insertBefore(span,referencia);
+        var texto = document.createTextNode("Debes seleccionar al menos un tipo de bici");
+        span.appendChild(texto);
+        return span;
+        }
+
+```
